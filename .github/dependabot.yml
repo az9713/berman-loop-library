@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Keep GitHub Actions current. Dependabot opens a PR when a pinned action has a
+  # newer release, bumping the commit SHA (and the version comment) for us to review.
+  - package-ecosystem: "github-actions"
+    directory: "/"            # scans .github/workflows/
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
