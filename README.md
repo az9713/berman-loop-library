@@ -2,6 +2,10 @@
 
 **🔗 Live site: https://az9713.github.io/berman-loop-library/**
 
+[![Berman's Loop Library — live preview](docs/preview.png)](https://az9713.github.io/berman-loop-library/)
+
+> ▶ **[Open the live, interactive site →](https://az9713.github.io/berman-loop-library/)** (the image above is a preview — GitHub can't embed live HTML in a README, but the site has working filters and copy buttons.)
+
 22 repeatable AI-agent workflows from [Matt Berman / Forward Future's Loop
 Library](https://signals.forwardfuture.ai/loop-library/), turned into
 **copy-and-paste `/loop` prompts** you can drop straight into a Claude Code session.
