@@ -106,10 +106,12 @@ on:
     - cron: "0 9 * * 1"      # every Monday 09:00 UTC
   workflow_dispatch:          # ...and a manual "Run workflow" button
 
-# What the job's GITHUB_TOKEN may do. The agent needs to commit and open a PR.
+# What the job's GITHUB_TOKEN may do. The agent commits + opens a PR (contents,
+# pull-requests) and the action fetches an OIDC token during auth (id-token).
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 # Don't let two syncs run at once.
 concurrency:
@@ -136,8 +138,9 @@ jobs:
 **Line by line:**
 
 - `on.schedule.cron` — the weekly trigger (UTC). `on.workflow_dispatch` — the manual button.
-- `permissions` — grants the run's built-in `GITHUB_TOKEN` write access to files and PRs, so the
-  agent can push a branch and open the pull request. Without this, the PR step would be denied.
+- `permissions` — grants the run's built-in `GITHUB_TOKEN` write access to files and PRs (so the
+  agent can push a branch and open the pull request) plus `id-token: write` (the action fetches an
+  OIDC token during auth). Miss `id-token` and the run fails with *"Could not fetch an OIDC token."*
 - `concurrency` — if a previous run is still going, don't start a second; avoids duplicate PRs.
 - `actions/checkout@v4` — **required** because the agent needs our repo's files (and the
   instruction file) present on the runner.
