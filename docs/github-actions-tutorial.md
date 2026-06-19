@@ -32,7 +32,7 @@ Workflow ── triggered by ──> Event
 | **Job** | A named unit of work. A workflow has one or more; by default they run in parallel. |
 | **Runner** (`runs-on:`) | The throwaway VM the job runs on, e.g. `ubuntu-latest`. Starts clean every time, then is destroyed. |
 | **Step** | One thing inside a job, done top-to-bottom. Either a shell command (`run:`) or a prebuilt **Action** (`uses:`). |
-| **Action** | A reusable step someone published, referenced as `owner/name@version` — e.g. `actions/checkout@v4` clones your repo onto the runner. |
+| **Action** | A reusable step someone published, referenced as `owner/name@version` — e.g. `actions/checkout@v5` clones your repo onto the runner. |
 | **Secret** | An encrypted value (API key, token) stored in repo settings, read as `${{ secrets.NAME }}`. Never hard-code keys. |
 | **`permissions:`** | What the job's automatic `GITHUB_TOKEN` is allowed to do (e.g. write contents, open PRs). Least-privilege by default. |
 
@@ -54,7 +54,7 @@ Commit that to `.github/workflows/hello.yml`, push, and the **Actions** tab show
 
 ```yaml
 steps:
-  - uses: actions/checkout@v4    # run a published Action (here: clone the repo)
+  - uses: actions/checkout@v5    # run a published Action (here: clone the repo)
   - run: npm test                # run a shell command on the runner
 ```
 
@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4          # clone our files onto the runner
+        uses: actions/checkout@v5          # clone our files onto the runner
 
       - name: Run the sync agent
         uses: anthropics/claude-code-action@v1
@@ -142,7 +142,7 @@ jobs:
   agent can push a branch and open the pull request) plus `id-token: write` (the action fetches an
   OIDC token during auth). Miss `id-token` and the run fails with *"Could not fetch an OIDC token."*
 - `concurrency` — if a previous run is still going, don't start a second; avoids duplicate PRs.
-- `actions/checkout@v4` — **required** because the agent needs our repo's files (and the
+- `actions/checkout@v5` — **required** because the agent needs our repo's files (and the
   instruction file) present on the runner.
 - `anthropics/claude-code-action@v1` — runs Claude Code. Because we pass a `prompt`, it runs in
   **automation mode** (acts immediately) rather than waiting for an `@claude` mention.
@@ -281,7 +281,7 @@ content straight to a public site.
 | Add an automation | Create `.github/workflows/<name>.yml` |
 | Run on a clock | `on: schedule: - cron: "0 9 * * 1"` (UTC) |
 | Add a manual button | `on: workflow_dispatch:` |
-| Clone your code onto the runner | step `uses: actions/checkout@v4` |
+| Clone your code onto the runner | step `uses: actions/checkout@v5` |
 | Run a shell command | step `run: <command>` |
 | Use a published Action | step `uses: owner/name@version` |
 | Store a key safely | repo Settings → Secrets, read as `${{ secrets.NAME }}` |
