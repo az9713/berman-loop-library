@@ -1,11 +1,9 @@
 name: Sync Loop Library
 
 on:
-  # ⚠️ RE-ENABLE the weekly schedule after the first successful manual test run:
-  #    uncomment the two lines below to resume Monday 09:00 UTC runs.
-  # schedule:
-  #   - cron: "0 9 * * 1"      # every Monday 09:00 UTC
-  workflow_dispatch:          # manual "Run workflow" button — the only trigger for now
+  schedule:
+    - cron: "0 9 * * 1"      # every Monday 09:00 UTC
+  workflow_dispatch:          # ...and a manual "Run workflow" button
 
 # What the job's token may do. The agent needs to commit a branch and open a PR,
 # and the action needs id-token to fetch an OIDC token during auth.
