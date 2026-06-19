@@ -106,12 +106,13 @@ on:
     - cron: "0 9 * * 1"      # every Monday 09:00 UTC
   workflow_dispatch:          # ...and a manual "Run workflow" button
 
-# What the job's GITHUB_TOKEN may do. The agent commits + opens a PR (contents,
-# pull-requests) and the action fetches an OIDC token during auth (id-token).
+# What the job's GITHUB_TOKEN may do: commit + open a PR (contents, pull-requests),
+# fetch an OIDC token during auth (id-token), open an issue if the run fails (issues).
 permissions:
   contents: write
   pull-requests: write
   id-token: write
+  issues: write
 
 # Don't let two syncs run at once.
 concurrency:
@@ -251,6 +252,34 @@ gh run view --log                      # full logs of the latest run
 
 This human-in-the-loop PR is deliberate: an unattended agent should never publish unreviewed
 content straight to a public site.
+
+### Seeing output and getting notified
+
+A run can feel like a black box — the **Summary** tab only shows an overview. The actual agent
+output is in the job log: **Actions → the run → All jobs → sync → expand the "Run the sync agent"
+step.** To watch live while it runs, use `gh run watch`; for a finished run, `gh run view --log`.
+
+Two enhancements this workflow adds so you don't have to dig:
+
+- **A one-line verdict on the Summary tab.** The agent appends its result to GitHub's run summary
+  via the `GITHUB_STEP_SUMMARY` file (e.g. `echo "✅ 22 loops, none new." >> "$GITHUB_STEP_SUMMARY"`),
+  so the outcome shows at a glance. (Instructed in `.claude/sync-loops.md`.)
+- **An issue on failure.** A final step runs only `if: failure()` and opens a GitHub issue with a
+  link to the failed run, so a broken weekly sync is impossible to miss:
+
+  ```yaml
+  - name: Open an issue on failure
+    if: failure()
+    env:
+      GH_TOKEN: ${{ github.token }}
+    run: |
+      gh issue create --title "Sync failed (run ${{ github.run_id }})" \
+        --body "See ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+  ```
+
+On **notifications**: GitHub emails you automatically when a scheduled run **fails** (it notifies
+whoever last edited the cron). Successful no-op runs are silent by design. And when new loops are
+found, the **pull request** itself is your notification. So you're pinged exactly when it matters.
 
 ---
 

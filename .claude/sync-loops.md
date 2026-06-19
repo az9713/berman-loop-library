@@ -32,6 +32,18 @@ Claude Code. Your job is to keep this repo in sync with the source as new loops 
    Do **NOT** push to `main` directly — a human reviews the reconstructed prompts before they
    reach the public site.
 
+## Report the outcome on the run summary
+
+At the very end, append a one-line verdict to GitHub's run summary so the result is visible
+without expanding logs. The `GITHUB_STEP_SUMMARY` environment variable holds a file path — append
+a markdown line to it with a bash command, for example:
+
+- No changes: `echo "✅ Checked source — N loops found, none new. No changes." >> "$GITHUB_STEP_SUMMARY"`
+- New loops:  `echo "🔔 Added loops NNN–MMM and opened PR #X." >> "$GITHUB_STEP_SUMMARY"`
+- Source unreachable: `echo "⚠️ Could not fetch/parse the source page. No changes made." >> "$GITHUB_STEP_SUMMARY"`
+
+Fill in the real numbers/PR link. Do this on every run, whatever the outcome.
+
 ## Rules
 
 - Prefer **additive** changes. Never delete or rewrite an existing prompt unless the source has

@@ -5,12 +5,13 @@ on:
     - cron: "0 9 * * 1"      # every Monday 09:00 UTC
   workflow_dispatch:          # ...and a manual "Run workflow" button
 
-# What the job's token may do. The agent needs to commit a branch and open a PR,
-# and the action needs id-token to fetch an OIDC token during auth.
+# What the job's token may do: commit a branch + open a PR (contents, pull-requests),
+# fetch an OIDC token during auth (id-token), and open an issue if the run fails (issues).
 permissions:
   contents: write
   pull-requests: write
   id-token: write
+  issues: write
 
 # Don't let two syncs run at once (avoids duplicate PRs).
 concurrency:
@@ -35,3 +36,15 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: "Read .claude/sync-loops.md and follow it exactly."
           claude_args: "--max-turns 40"     # safety cap on agent iterations
+
+      # If anything above failed, file an issue so you hear about it (email + repo).
+      - name: Open an issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          body=$(printf 'The scheduled Loop Library sync workflow failed.\n\nRun log: %s\n\nCheck the failing step, fix it, then re-run with the **Run workflow** button.' "$run_url")
+          gh issue create \
+            --title "⚠️ Loop Library sync failed (run ${{ github.run_id }})" \
+            --body "$body"
