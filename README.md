@@ -20,6 +20,8 @@ piece for practitioners was the actual runnable prompt text — that's what this
 | [`index.html`](index.html) | Filterable card grid of all 22 loops with one-click **Copy** buttons. Browse by domain, filter by setup tier / scheduling mode. **This is the site.** |
 | [`berman-loops.md`](berman-loops.md) | The same content as a Markdown reference, with deeper notes on scheduling, self-pacing, and `/loop` vs `/goal`. |
 | [`mockups.html`](mockups.html) | Three candidate layouts (card grid / sidebar / accordion) behind a tab switcher — kept for reference. |
+| [`docs/sync-runbook.md`](docs/sync-runbook.md) | **Operator cheat-sheet** — how to run, watch, and manage the auto-sync GitHub Action (browser + `gh` commands). |
+| [`docs/github-actions-tutorial.md`](docs/github-actions-tutorial.md) | GitHub Actions explained from scratch, using this repo's self-sync workflow as the worked example. |
 
 ## How to use a loop
 
