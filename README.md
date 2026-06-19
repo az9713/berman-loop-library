@@ -13,14 +13,29 @@ Library](https://signals.forwardfuture.ai/loop-library/), turned into
 Berman published the loop *concepts* (trigger → action → verify → stop). The missing
 piece for practitioners was the actual runnable prompt text — that's what this provides.
 
-## What's here
+## What's in this repo
+
+**The product** — the prompts and the site:
 
 | File | What it is |
 |------|------------|
 | [`index.html`](index.html) | Filterable card grid of all 22 loops with one-click **Copy** buttons. Browse by domain, filter by setup tier / scheduling mode. **This is the site.** |
 | [`berman-loops.md`](berman-loops.md) | The same content as a Markdown reference, with deeper notes on scheduling, self-pacing, and `/loop` vs `/goal`. |
 | [`mockups.html`](mockups.html) | Three candidate layouts (card grid / sidebar / accordion) behind a tab switcher — kept for reference. |
-| [`docs/sync-runbook.md`](docs/sync-runbook.md) | **Operator cheat-sheet** — how to run, watch, and manage the auto-sync GitHub Action (browser + `gh` commands). |
+
+**The automation** — keeps the repo in sync with the source (see [next section](#how-this-repo-stays-up-to-date)):
+
+| File | What it is |
+|------|------------|
+| [`.github/workflows/sync-loops.yml`](.github/workflows/sync-loops.yml) | The weekly GitHub Action: when/how the sync runs. SHA-pinned action, least-privilege, runs on a Claude Max token. |
+| [`.claude/sync-loops.md`](.claude/sync-loops.md) | The agent's task instructions: what to do each run (detect new loops → open a PR). |
+| [`.github/dependabot.yml`](.github/dependabot.yml) | Weekly Dependabot — opens PRs to bump the pinned action when a new version ships. |
+
+**The docs** — learn it, then operate it:
+
+| File | What it is |
+|------|------------|
+| [`docs/sync-runbook.md`](docs/sync-runbook.md) | **Operator cheat-sheet** — how to run, watch, and manage the sync Action (browser + `gh` commands). |
 | [`docs/github-actions-tutorial.md`](docs/github-actions-tutorial.md) | GitHub Actions explained from scratch, using this repo's self-sync workflow as the worked example. |
 
 ## How to use a loop
@@ -34,6 +49,27 @@ Each loop is tagged:
 - **Tier A / B / C** — how much setup it needs (run anywhere → needs the right project → needs a placeholder or external tool).
 - **Mode** — *self-paced* (runs until done, stops itself) vs *fixed interval* (`1d`, `30m`…).
 - **⟳ Routines** — wants unattended/overnight running, so back it with a cloud Routine rather than an in-session `/loop`.
+
+## How this repo stays up to date
+
+Berman's library will grow; this repo keeps up on its own. A GitHub Action runs **every Monday
+(09:00 UTC)**, fetches the source, and compares it to the loops already here:
+
+- **New loops found** → it writes paste-ready prompts for them and **opens a pull request** for you
+  to review and merge (merging auto-rebuilds the site). It never publishes unreviewed.
+- **Nothing new** → it exits silently, leaving a one-line verdict on the run's Summary tab.
+
+Properties worth knowing:
+
+- **No API bill** — authenticates with a Claude **Max** subscription (`CLAUDE_CODE_OAUTH_TOKEN`
+  secret), so usage counts against the Max plan, not metered API credit.
+- **Hardened** — the action is pinned to an immutable commit SHA, with least-privilege permissions;
+  **Dependabot** opens PRs to keep that pin current.
+- **You're notified when it matters** — a failed run sends an email **and** opens a GitHub issue; a
+  successful run with changes shows up as a PR. Routine no-op runs stay quiet.
+
+To run it on demand or manage it, see the **[operator runbook](docs/sync-runbook.md)**. To
+understand how it all works, see the **[GitHub Actions tutorial](docs/github-actions-tutorial.md)**.
 
 ## `/loop` vs `/goal`, in one line
 
