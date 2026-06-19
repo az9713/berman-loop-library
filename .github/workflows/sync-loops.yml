@@ -1,9 +1,11 @@
 name: Sync Loop Library
 
 on:
-  schedule:
-    - cron: "0 9 * * 1"      # every Monday 09:00 UTC
-  workflow_dispatch:          # ...and a manual "Run workflow" button
+  # ⚠️ RE-ENABLE the weekly schedule after the first successful manual test run:
+  #    uncomment the two lines below to resume Monday 09:00 UTC runs.
+  # schedule:
+  #   - cron: "0 9 * * 1"      # every Monday 09:00 UTC
+  workflow_dispatch:          # manual "Run workflow" button — the only trigger for now
 
 # What the job's token may do. The agent needs to commit a branch and open a PR.
 permissions:
@@ -23,7 +25,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run the sync agent
-        uses: anthropics/claude-code-action@v1
+        # Pinned to an immutable commit SHA (supply-chain hardening) since this step
+        # receives the CLAUDE_CODE_OAUTH_TOKEN. Re-pin after reviewing changelogs (Dependabot).
+        uses: anthropics/claude-code-action@51705da45eecce209d4700538bf8377d5b5fc695  # v1
         with:
           # Auth via your Claude Max subscription — NO per-token API billing.
           # Generate with `claude setup-token`, store as the CLAUDE_CODE_OAUTH_TOKEN secret.

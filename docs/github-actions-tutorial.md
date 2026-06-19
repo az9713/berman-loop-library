@@ -264,6 +264,10 @@ content straight to a public site.
 - **Least privilege** — the workflow grants only `contents: write` and `pull-requests: write`.
   It can't, say, change repo settings or delete the repo.
 - **PR, not push** — the agent proposes; you decide. Keep it that way for anything public-facing.
+- **Pin third-party actions to a commit SHA** — `uses: owner/action@<40-char-sha>` instead of a
+  mutable tag like `@v1`. A tag can be repointed at malicious code; a SHA can't. This matters most
+  when the step receives a secret (ours gets the auth token). Re-pin periodically after reviewing
+  changelogs — Dependabot can automate the bumps. Our `sync-loops.yml` pins the action this way.
 
 ---
 
