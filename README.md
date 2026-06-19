@@ -1,10 +1,15 @@
-# Berman's Loop Library — paste-ready `/loop` prompts for Claude Code
+# Loop Library — paste-ready `/loop` prompts for Claude Code
 
-**🔗 Live site: https://az9713.github.io/berman-loop-library/**
+> ### 📚 Based on **[Matt Berman's Loop Library](https://signals.forwardfuture.ai/loop-library/)** (Forward Future)
+> The 22 loop **concepts** — trigger → action → verify → stop — are Matt Berman's, published at
+> **<https://signals.forwardfuture.ai/loop-library/>**. This repo's contribution is the *runnable
+> prompt text* for each, plus a site to copy them from. All credit for the ideas goes to him.
 
-[![Berman's Loop Library — live preview](docs/preview.png)](https://az9713.github.io/berman-loop-library/)
+**🔗 Live site: https://az9713.github.io/loop-library/**
 
-> ▶ **[Open the live, interactive site →](https://az9713.github.io/berman-loop-library/)** (the image above is a preview — GitHub can't embed live HTML in a README, but the site has working filters and copy buttons.)
+[![Berman's Loop Library — live preview](docs/preview.png)](https://az9713.github.io/loop-library/)
+
+> ▶ **[Open the live, interactive site →](https://az9713.github.io/loop-library/)** (the image above is a preview — GitHub can't embed live HTML in a README, but the site has working filters and copy buttons.)
 
 22 repeatable AI-agent workflows from [Matt Berman / Forward Future's Loop
 Library](https://signals.forwardfuture.ai/loop-library/), turned into
@@ -40,7 +45,7 @@ piece for practitioners was the actual runnable prompt text — that's what this
 
 ## How to use a loop
 
-1. Open the [site](https://az9713.github.io/berman-loop-library/) and find a loop.
+1. Open the [site](https://az9713.github.io/loop-library/) and find a loop.
 2. Hit **Copy**.
 3. Paste it into Claude Code and press Enter.
 
