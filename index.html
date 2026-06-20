@@ -139,6 +139,15 @@
      <tr><td>Stops when</td><td>work done, or <code>Esc</code></td><td>evaluator confirms, or <code>/goal clear</code></td></tr>
     </table>
     <p>One line: self-paced <code>/loop</code> <b>waits between rounds and trusts itself</b>; <code>/goal</code> <b>runs flat-out with a second model as judge</b>. So <code>/goal</code> is tighter for a local grind to a checkable end state (<i>“coverage is 100%”</i>), while <code>/loop</code> wins when there's genuinely something external to wait for. Write the goal so the proof lands in the chat (<i>“<code>npm test</code> exits 0”</i>) — the evaluator only reads the transcript, it can't run commands. Requires v2.1.139+.</p>
+    <p><b>Should you combine them?</b> Usually no — most <code>/goal</code> + <code>/loop</code> “combos” are redundant and resolve to a single mechanism. The one real nest is <code>/loop &lt;interval&gt; /goal &lt;condition&gt;</code> (“periodically drive to a checkable end state”); the reverse doesn't compose. Quick compiler:</p>
+    <table>
+     <tr><th>You say…</th><th>It's…</th></tr>
+     <tr><td>“until &lt;a condition I can check&gt;”</td><td><code>/goal</code></td></tr>
+     <tr><td>“every &lt;time&gt;” / “wait for &lt;external thing&gt;”</td><td><code>/loop</code></td></tr>
+     <tr><td>“every &lt;time&gt;, drive &lt;condition&gt; to done”</td><td><code>/loop … /goal …</code> <i>(rare)</i></td></tr>
+     <tr><td>both words, one task</td><td>you meant <b>one</b></td></tr>
+    </table>
+    <p>Full principles &amp; examples: <a href="docs/loop-vs-goal.md">docs/loop-vs-goal.md</a>. Sources: <a href="https://code.claude.com/docs/en/goal" target="_blank" rel="noopener">/goal</a> · <a href="https://code.claude.com/docs/en/scheduled-tasks" target="_blank" rel="noopener">/loop</a>.</p>
   </details>
 
   <div class="bar" id="bar">

@@ -42,6 +42,7 @@ piece for practitioners was the actual runnable prompt text — that's what this
 |------|------------|
 | [`docs/sync-runbook.md`](docs/sync-runbook.md) | **Operator cheat-sheet** — how to run, watch, and manage the sync Action (browser + `gh` commands). |
 | [`docs/github-actions-tutorial.md`](docs/github-actions-tutorial.md) | GitHub Actions explained from scratch, using this repo's self-sync workflow as the worked example. |
+| [`docs/loop-vs-goal.md`](docs/loop-vs-goal.md) | `/loop` vs `/goal` deep-dive — the core difference, when (not) to combine them, and worked examples. |
 
 ## How to use a loop
 
@@ -82,6 +83,13 @@ Self-paced `/loop` **waits between rounds and trusts itself** to decide it's don
 **runs flat-out with a second model as the judge**. Use `/loop` when there's something
 external to wait for; use `/goal` when you can state a clear pass/fail end condition. The
 site and the Markdown doc both include a short decision tree.
+
+**Should you combine them?** Usually no — most `/goal` + `/loop` "combos" are redundant and
+compile down to one mechanism. The only genuine nest is `/loop <interval> /goal <condition>`
+("periodically drive to a checkable end state"); the reverse doesn't compose. Full principles,
+the rule of thumb, and worked examples are in **[`docs/loop-vs-goal.md`](docs/loop-vs-goal.md)**
+(sourced from the official [`/goal`](https://code.claude.com/docs/en/goal) and
+[`/loop`](https://code.claude.com/docs/en/scheduled-tasks) docs).
 
 ---
 
