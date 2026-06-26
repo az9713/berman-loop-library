@@ -28,7 +28,7 @@ jobs:
       - name: Run the sync agent
         # Pinned to an immutable commit SHA (supply-chain hardening) since this step
         # receives the CLAUDE_CODE_OAUTH_TOKEN. Re-pin after reviewing changelogs (Dependabot).
-        uses: anthropics/claude-code-action@51705da45eecce209d4700538bf8377d5b5fc695  # v1
+        uses: anthropics/claude-code-action@521136812280ae7ef256e06045655b9da02793f0  # v1
         with:
           # Auth via your Claude Max subscription — NO per-token API billing.
           # Generate with `claude setup-token`, store as the CLAUDE_CODE_OAUTH_TOKEN secret.
